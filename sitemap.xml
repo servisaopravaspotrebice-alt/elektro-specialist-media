@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <image:image><image:loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/photos/Kavovar_DeLonghi_Magnifica.jpg</image:loc></image:image>
     <image:image><image:loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/photos/Konvektomat_01_otevrena_elektronika.jpg</image:loc></image:image>
     <image:image><image:loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/photos/Mycka_CLASSEQ_01.jpg</image:loc></image:image>
@@ -69,4 +69,8 @@
     <image:image><image:loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/photos/Mycka_CLASSEQ_01.jpg</image:loc></image:image>
   </url>
   <url><loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/oprava-nebo-novy-kavovar-praha.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/kavovar-netece-voda-priciny.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/profesionalni-mycka-spatne-myje.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/o-projektu.html</loc><lastmod>2026-11-25</lastmod></url>
 </urlset>
