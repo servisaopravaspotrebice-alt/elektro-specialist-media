@@ -31,3 +31,12 @@ Poradnu vydává přímo společnost Elektro Specialist s.r.o. Nejde o nezávisl
 - Elektro Specialist s.r.o., Vratislavova 21/26, Praha 2
 
 Fotografie pocházejí z reálných zakázek. Fotografie vyňaté z pracovních zpráv byly očištěny od telefonních čísel a komunikace klientů. Účelem portfolia není zveřejňovat osobní informace zákazníků ani tvrdit neověřené detaily oprav.
+
+## Domácí spotřebiče — odborné články
+
+- [Pračky, domácí myčky, trouby a další spotřebiče](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/domaci-spotrebice-praha.html)
+- [Pračka nevypouští vodu](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/pracka-nevypousti-vodu-praha.html)
+- [Domácí myčka nevypouští nebo špatně myje](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/domaci-mycka-nevypousti-praha.html)
+- [Elektrická trouba špatně hřeje](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/elektricka-trouba-spatne-hreje-praha.html)
+
+Tato firemní poradna rozlišuje domácí a profesionální myčky. U konkrétního modelu se rozsah servisu ověřuje při poptávce.
