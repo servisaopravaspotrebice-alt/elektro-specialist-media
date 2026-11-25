@@ -22,3 +22,5 @@
 .magazine-highlight .notice a{color:#ff9ca8}
 :focus-visible{outline:3px solid #ff8b98;outline-offset:3px}
 @media(max-width:680px){.article{padding-top:32px}.editor-cards .card h3{min-height:0}}
+
+.household-links{margin:18px 0 26px;padding:20px;border:1px solid var(--line);border-radius:16px;background:#24171e}.household-links h3{margin:0 0 6px}.topic-links{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.topic-links a{display:inline-block;padding:9px 15px;border:1px solid #6a3b49;border-radius:10px;background:#2b1a22;color:#fff;text-decoration:none;font-weight:600;font-size:.92rem}.topic-links a:hover{background:#4a2634}.editorial-note{border-left:3px solid #f65b6c;padding:13px 17px;background:#28171e;margin:22px 0;border-radius:0 12px 12px 0}.editorial-note p{color:var(--muted);margin:0}
