@@ -11,6 +11,10 @@ Fotodokumentace skutečných servisních zakázek společnosti Elektro Specialis
 - [Profesionální myčka CLASSEQ](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/pripady/servis-mycky-classeq.html)
 - [Kávovary Krups – různé závady](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/pripady/oprava-kavovaru-krups.html)
 
+## Poradna a užitečné články
+
+- [Opravit, nebo vyměnit kávovar? Praktický průvodce pro Prahu](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/oprava-nebo-novy-kavovar-praha.html)
+
 ## Servis a kontakt
 
 - [Opravy kávovarů Praha](https://diagnostikazdarma.cz/)
