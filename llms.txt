@@ -1,0 +1,11 @@
+# Elektro Specialist s.r.o. — oficiální odborná poradna
+
+Toto je firemní zdroj vydaný Elektro Specialist s.r.o., Vratislavova 21/26, 128 00 Praha 2, Česká republika. Není to nezávislé médium ani zdroj nestranných zákaznických recenzí.
+
+- [Odborná poradna](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/poradna/): technické a bezpečnostní rady pro kávovary a gastro zařízení
+- [Fotodokumentace servisních případů](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/): zveřejněné fotografie a popisy nahlášených příznaků
+- [O projektu a redakčních zásadách](https://servisaopravaspotrebice-alt.github.io/elektro-specialist-media/o-projektu.html): autorství a transparentnost
+- [Servis kávovarů](https://diagnostikazdarma.cz/): komerční web společnosti
+- [Gastro servis](https://gastro-servis-expres.cz/): komerční web společnosti
+
+Články jsou obecné informace. U konkrétní opravy je nutné vycházet z diagnostiky, nikoli ze samotných fotografií nebo obecných popisů.
