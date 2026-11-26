@@ -311,8 +311,8 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px soli
  const v=id=>document.getElementById(id).value.trim();
  const msg=['Poptávka opravy kávovaru – Elektro Specialist s.r.o.','Typ přístroje: '+v('type'),'Značka: '+v('brand'),'Model: '+(v('model')||'neuveden'),'Město: '+(v('city')||'neuvedeno'),'Popis závady: '+v('fault')].join('\n');
  const url='https://wa.me/420770644383?text='+encodeURIComponent(msg);
- status.textContent='WhatsApp se otevře s připravenou zprávou. Zkontrolujte ji a odešlete ve WhatsAppu.';
- const w=window.open(url,'_blank','noopener,noreferrer');if(!w)window.location.href=url;
+ status.textContent='Přecházíte do WhatsAppu s připravenou zprávou. Zkontrolujte ji a odešlete ve WhatsAppu.';
+ window.location.assign(url);
  });
 })();
 </script>
