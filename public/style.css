@@ -24,3 +24,27 @@
 .quick-request{padding:30px 0 36px;scroll-margin-top:12px;border-top:3px solid #c31330}.quick-request .form-grid{align-items:start;gap:28px}.quick-request .form-card{padding:22px}.quick-request .contact{margin-top:16px}.quick-request .quick-call{margin-bottom:10px}.quick-request .callback-heading p{margin-bottom:14px}.quick-request .fields{gap:10px}.quick-request .photo-field .fine{font-size:12px}.quick-request .callback-status[data-state=error]{padding:10px 12px;border:1px solid #e6bac4;border-radius:8px;background:#fff2f4}.quick-request .callback-status[data-state=error]::before{content:'ℹ ';font-weight:bold}@media(max-width:800px){.quick-request{padding:22px 0 26px}.quick-request .form-grid{gap:12px}.quick-request .form-grid>div:first-child .contact{display:none}.quick-request .form-grid>div:first-child .eyebrow{margin-bottom:5px}.quick-request h2{margin-bottom:7px}.quick-request .form-card{padding:15px}.quick-request .intro{margin-bottom:9px}.quick-request .quick-call{margin-bottom:0}.quick-request .quick-call .btn{min-height:40px;padding:8px 14px}.quick-request .callback-heading h3{margin-bottom:6px}}
 
 .brand-field .brand-select-label{font-size:12px;font-weight:600;color:var(--muted);margin:7px 0 3px}.brand-field select{font-size:15px;min-height:44px}.brand-field input{min-height:44px}
+
+/* Centered, compact first screen across all service categories. */
+.hero .wrap{text-align:center}
+.hero .wrap:not(.hero-grid){max-width:920px;padding-top:34px;padding-bottom:38px}
+.hero .eyebrow{margin:0 auto 12px;line-height:1.4}
+.hero .free-offer{width:100%;margin:0 auto 21px;text-align:center}
+.hero .free-offer .offer-main{align-items:center;text-align:center;padding:17px 20px;gap:6px}
+.hero .free-offer .offer-main strong{display:block;width:100%;text-align:center;line-height:1.12}
+.hero .free-offer .offer-main .free-word{margin-top:3px}
+.hero .free-offer .offer-main .free-condition{max-width:52ch;margin:3px auto 0;text-align:center}
+.hero .free-offer .offer-fast{justify-content:center;text-align:center;flex-wrap:wrap;column-gap:12px;row-gap:3px}
+.hero .free-offer .offer-fast span{text-align:center}
+.hero h1{margin-left:auto;margin-right:auto;text-wrap:balance}
+.hero .lead,.hero .conversion-copy{margin-left:auto;margin-right:auto;text-align:center;text-wrap:pretty}
+.hero .conversion-benefits{width:fit-content;max-width:100%;margin:0 auto 12px;justify-items:center;text-align:center}
+.hero .conversion-benefits li{line-height:1.45;text-wrap:pretty}
+.hero .offer-conditions{margin:12px auto 0;text-align:center;text-wrap:pretty}
+.hero .buttons{justify-content:center;margin:16px auto 0}
+.hero .hero-contact-note{text-align:center;margin:10px auto 0}
+.hero .visual{margin-left:auto;margin-right:auto;width:100%}
+.hero .visual-note{justify-content:center}
+@media(min-width:801px){.hero .hero-grid>div:first-child{min-width:0}.hero .hero-grid .free-offer{max-width:620px}}
+@media(max-width:800px){.hero .wrap:not(.hero-grid){padding-top:23px;padding-bottom:24px}.hero .hero-grid{padding-top:23px;padding-bottom:24px;gap:16px}.hero .free-offer{margin-bottom:16px}.hero .free-offer+h1{font-size:clamp(29px,6.6vw,48px);line-height:1.1;margin-bottom:12px}.hero .conversion-question{font-size:clamp(18px,4.6vw,24px);margin-bottom:7px}.hero .conversion-copy{margin-bottom:12px;line-height:1.5}.hero .free-offer .offer-main{padding:13px 10px}.hero .free-offer .offer-main strong{font-size:clamp(20px,5vw,32px)}.hero .free-offer .offer-main .free-word{font-size:clamp(42px,10vw,62px)}.hero .offer-conditions{font-size:12px}.hero .buttons .btn{min-height:44px;padding:10px 12px}.hero .hero-contact-note{font-size:12px}.hero .offer-fast{padding:8px 10px}.hero .free-offer .offer-fast strong{font-size:21px}}
+@media(max-width:480px){.hero .free-offer .offer-fast{flex-direction:column;gap:2px}.hero .offer-kicker{font-size:9px;letter-spacing:.7px}.hero .conversion-benefits{gap:5px}.hero .eyebrow{font-size:10px;margin-bottom:9px}.hero .buttons{gap:8px}.hero .buttons .btn{min-width:0;flex:1;font-size:13px}.hero .free-offer .offer-main .free-condition{font-size:12px}}
