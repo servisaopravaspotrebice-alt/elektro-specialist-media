@@ -38,3 +38,32 @@ const server=http.createServer(async(req,res)=>{
  try{const body=new FormData();body.set('chat_id',process.env.TELEGRAM_CHAT_ID);if(buf){body.set('document',new Blob([buf],{type:mime}),'model.'+({'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[mime]));body.set('caption',msg);await telegram('sendDocument',body);}else{body.set('text',msg);await telegram('sendMessage',body);}done.set(id,{pending:false,at:Date.now()});return send(res,200,{ok:true,id});}catch{done.delete(id);return send(res,502,{ok:false,error:'delivery'});}
  }catch{return send(res,400,{ok:false,error:'invalid'});}finally{active--;}
 });server.requestTimeout=35000;server.headersTimeout=15000;server.listen(PORT,'0.0.0.0');
+
+/* Private setup diagnostics: only server logs, never the public API.
+ * No update offset is advanced and no customer messages or token are logged. */
+(async function setupTelegram(){
+ if(!process.env.TELEGRAM_BOT_TOKEN){console.info('TELEGRAM_SETUP token_missing');return;}
+ try{
+ const bot=await telegram('getMe',new FormData());
+ console.info('TELEGRAM_SETUP token_valid');
+ if(configured()){
+ if(process.env.TELEGRAM_SETUP_TEST==='1'){
+ const chat=await telegram('getChat',new URLSearchParams({chat_id:process.env.TELEGRAM_CHAT_ID}));
+ if(!['group','supergroup'].includes(chat.type)||chat.title?.trim().toLowerCase()!=='objednavky new'){console.info('TELEGRAM_SETUP test_refused_group_mismatch');return;}
+ const sent=await telegram('sendMessage',new URLSearchParams({chat_id:process.env.TELEGRAM_CHAT_ID,text:'✅ TEST – Elektro Specialist: nová skupina Objednavky new je připojena. Toto není objednávka zákazníka.'}));
+ console.info('TELEGRAM_SETUP test_delivered message_id='+sent.message_id);
+ }else console.info('TELEGRAM_SETUP chat_configured');
+ return;
+ }
+ for(let attempt=0;attempt<6;attempt++){
+ const updates=await telegram('getUpdates',new URLSearchParams({timeout:'0',limit:'100',allowed_updates:JSON.stringify(['message','my_chat_member'])}));
+ const ids=new Set();
+ for(const u of updates){const chat=u.message?.chat||u.my_chat_member?.chat;if(chat&&['group','supergroup'].includes(chat.type)&&chat.title?.trim().toLowerCase()==='objednavky new'&&Number.isSafeInteger(chat.id)&&chat.id<0)ids.add(String(chat.id));}
+ if(ids.size===1){console.info('TELEGRAM_SETUP group_id='+[...ids][0]);return;}
+ if(ids.size>1){console.info('TELEGRAM_SETUP multiple_matching_groups');return;}
+ if(attempt===0)console.info('TELEGRAM_SETUP waiting_for_group_update');
+ if(attempt<5)await new Promise(r=>setTimeout(r,15000));
+ }
+ console.info('TELEGRAM_SETUP group_not_found');
+ }catch{console.info('TELEGRAM_SETUP verification_failed');}
+})();
