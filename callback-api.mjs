@@ -18,6 +18,16 @@ const orderNumber=async(id,action,lease)=>{
 };
 const formatOrderNumber=n=>String(n).padStart(6,'0');
 
+/* Telegram phone entities use UTF-16 offsets, as do JS string indices.
+ * Preserve international prefixes; unprefixed Czech 9-digit numbers become +420. */
+const dialNumber=phone=>{const digits=phone.replace(/\D/g,'');if(phone.startsWith('+'))return '+'+digits;if(digits.startsWith('00'))return '+'+digits.slice(2);if(digits.length===9)return '+420'+digits;if(digits.length===12&&digits.startsWith('420'))return '+'+digits;return digits;};
+const phoneEntity=(message,phone)=>{const offset=message.indexOf('\nTelefon: ')+'\nTelefon: '.length;if(offset<10||message.slice(offset,offset+phone.length)!==phone)throw Error('phone_offset');return [{type:'phone_number',offset,length:phone.length}];};
+const sendOrderTelegram=async(body,method,field)=>{
+ try{const sent=await telegram(method,body);const entities=sent[field]||[];console.info('ORDER_PHONE '+(entities.some(e=>e.type==='phone_number')?'entity_confirmed':'client_detection_only'));return sent;}
+ catch(e){if(e?.message!=='http_400'||!body.has(field))throw e;body.delete(field);const sent=await telegram(method,body);console.info('ORDER_PHONE fallback_plain');return sent;}
+};
+
+
 const imageType=b=>b.length>=12&&b[0]===255&&b[1]===216&&b[2]===255?'image/jpeg':b.length>=12&&b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]))?'image/png':b.length>=12&&b.toString('ascii',0,4)==='RIFF'&&b.toString('ascii',8,12)==='WEBP'?'image/webp':null;
 setInterval(()=>{const n=Date.now();for(const [k,v] of hits)if(n-v.start>600000)hits.delete(k);for(const [k,v] of done)if(n-v.at>3600000)done.delete(k);},60000).unref();
 const server=http.createServer(async(req,res)=>{
@@ -49,9 +59,10 @@ const server=http.createServer(async(req,res)=>{
  if(receipt.status==='delivered'){done.set(id,{pending:false,at:Date.now(),number});return send(res,200,{ok:true,id,number});}
  if(receipt.status==='pending')return send(res,409,{ok:false,error:'pending'});
  if(receipt.status!=='claimed')return send(res,503,{ok:false,error:'unavailable'});
- const msg=mode==='callback'?['📞 Poptávka '+number+' – Zpětné zavolání','Telefon: '+phone,'Úkol: zavolat zpět.'].join('\n'):['🔧 Poptávka '+number+' – Elektro Specialist','Spotřebič: '+type,'Telefon: '+phone,'Město / adresa: '+area,'Značka: '+(brand||'neuvedena'),'Model: '+(model||'neuveden'),'Závada: '+problem,'Preferovaný termín: '+(visit||'co nejdříve'),'Úkol: zavolat zpět a sdělit orientační cenu.'].join('\n');
+ const dial=dialNumber(phone);
+ const msg=mode==='callback'?['📞 Poptávka '+number+' – Zpětné zavolání','Telefon: '+dial,'Úkol: zavolat zpět.'].join('\n'):['🔧 Poptávka '+number+' – Elektro Specialist','Spotřebič: '+type,'Telefon: '+dial,'Město / adresa: '+area,'Značka: '+(brand||'neuvedena'),'Model: '+(model||'neuveden'),'Závada: '+problem,'Preferovaný termín: '+(visit||'co nejdříve'),'Úkol: zavolat zpět a sdělit orientační cenu.'].join('\n');
  done.set(id,{pending:true,at:now,number});
- try{const body=new FormData();body.set('chat_id',process.env.TELEGRAM_CHAT_ID);if(buf){body.set('document',new Blob([buf],{type:mime}),'model.'+({'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[mime]));body.set('caption',msg);await telegram('sendDocument',body);}else{body.set('text',msg);await telegram('sendMessage',body);}}catch(e){done.delete(id);if(/^http_4\d\d$/.test(e?.message||''))try{await orderNumber(id,'release',lease);}catch{}return send(res,502,{ok:false,error:'delivery'});}
+ try{const body=new FormData();body.set('chat_id',process.env.TELEGRAM_CHAT_ID);if(buf){body.set('document',new Blob([buf],{type:mime}),'model.'+({'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[mime]));body.set('caption',msg);body.set('caption_entities',JSON.stringify(phoneEntity(msg,dial)));await sendOrderTelegram(body,'sendDocument','caption_entities');}else{body.set('text',msg);body.set('entities',JSON.stringify(phoneEntity(msg,dial)));await sendOrderTelegram(body,'sendMessage','entities');}}catch(e){done.delete(id);if(/^http_4\d\d$/.test(e?.message||''))try{await orderNumber(id,'release',lease);}catch{}return send(res,502,{ok:false,error:'delivery'});}
  done.set(id,{pending:false,at:Date.now(),number});
  let marked=false;for(let attempt=0;attempt<2&&!marked;attempt++)try{await orderNumber(id,'complete',lease);marked=true;}catch{}
  console.info('ORDER_NUMBER delivered '+number+(marked?'':' receipt_update_failed'));
