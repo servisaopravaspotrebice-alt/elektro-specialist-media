@@ -1,0 +1,1 @@
+window.serviceEvent=function(name){window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:name});};document.addEventListener('click',function(e){const a=e.target.closest('a');if(!a)return;if(a.getAttribute('href')?.startsWith('tel:'))window.serviceEvent('phone_click');else if(a.href.includes('maps.app.goo.gl'))window.serviceEvent('map_click');});
