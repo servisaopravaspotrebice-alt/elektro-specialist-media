@@ -38,3 +38,15 @@ let started=false;const start=()=>{if(started)return;started=true;availability()
 if('IntersectionObserver' in window){const obs=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){obs.disconnect();start();}},{rootMargin:'250px'});obs.observe(form);}else{window.addEventListener('load',start,{once:true});if(document.readyState==='complete')start();}
 form.addEventListener('focusin',start,{once:true});
 })();
+
+/* Category-specific, local WebP photos for all older regional/brand pages. */
+(function(){
+ const path=location.pathname;
+ const categories=[['indukcnich-desek','indukce','Servis indukční varné desky'],['susicek','susicky','Servis sušičky prádla'],['mycek','mycky','Servis myčky nádobí'],['trub','trouby','Servis elektrické trouby']];
+ const category=categories.find(c=>path.includes(c[0]))||['pracek','pracky','Servis pračky'];
+ for(const visual of document.querySelectorAll('.visual')){
+   const svg=visual.querySelector('svg');if(!svg||visual.querySelector('.hero-photo'))continue;
+   const img=document.createElement('img');img.className='hero-photo';img.width=1000;img.height=740;img.alt=category[2]+' – ilustrační snímek vytvořený pomocí AI';img.decoding='async';img.loading='eager';img.fetchPriority='high';img.src='images/'+category[1]+'.webp';svg.replaceWith(img);
+   const note=visual.querySelector('.visual-note');if(note){note.replaceChildren();const a=document.createElement('span'),b=document.createElement('span');a.textContent='Ilustrační snímek (AI)';b.textContent='Diagnostika · Opravy';note.append(a,b);}
+ }
+})();
