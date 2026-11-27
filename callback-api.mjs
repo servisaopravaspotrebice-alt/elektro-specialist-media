@@ -8,7 +8,7 @@ const configured=()=>Boolean(process.env.TELEGRAM_BOT_TOKEN&&/^-100\d+$|^-\d+$/.
 const types=new Set(['Pračka','Myčka nádobí','Sušička prádla','Elektrická trouba','Indukční deska','Jiný spotřebič']);
 const send=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(data));};
 const clean=(v,n)=>typeof v==='string'?v.trim().slice(0,n):'';
-const telegram=async(method,body)=>{const r=await fetch('https://api.telegram.org/bot'+process.env.TELEGRAM_BOT_TOKEN+'/'+method,{method:'POST',body,signal:AbortSignal.timeout(20000)});const j=await r.json();if(!r.ok||!j.ok)throw Error('delivery');return j.result;};
+const telegram=async(method,body)=>{const token=(process.env.TELEGRAM_BOT_TOKEN||'').trim();if(!/^\d+:[A-Za-z0-9_-]+$/.test(token))throw Error('token_format');let r;try{r=await fetch('https://api.telegram.org/bot'+token+'/'+method,{method:'POST',body,signal:AbortSignal.timeout(20000)});}catch{throw Error('network');}if(!r.ok)throw Error('http_'+r.status);const j=await r.json();if(!j.ok)throw Error('telegram_rejected');return j.result;};
 const imageType=b=>b.length>=12&&b[0]===255&&b[1]===216&&b[2]===255?'image/jpeg':b.length>=12&&b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]))?'image/png':b.length>=12&&b.toString('ascii',0,4)==='RIFF'&&b.toString('ascii',8,12)==='WEBP'?'image/webp':null;
 setInterval(()=>{const n=Date.now();for(const [k,v] of hits)if(n-v.start>600000)hits.delete(k);for(const [k,v] of done)if(n-v.at>3600000)done.delete(k);},60000).unref();
 const server=http.createServer(async(req,res)=>{
@@ -44,7 +44,7 @@ const server=http.createServer(async(req,res)=>{
 (async function setupTelegram(){
  if(!process.env.TELEGRAM_BOT_TOKEN){console.info('TELEGRAM_SETUP token_missing');return;}
  try{
- const bot=await telegram('getMe',new FormData());
+ const bot=await telegram('getMe',new URLSearchParams());
  console.info('TELEGRAM_SETUP token_valid');
  if(configured()){
  if(process.env.TELEGRAM_SETUP_TEST==='1'){
@@ -65,5 +65,5 @@ const server=http.createServer(async(req,res)=>{
  if(attempt<5)await new Promise(r=>setTimeout(r,15000));
  }
  console.info('TELEGRAM_SETUP group_not_found');
- }catch{console.info('TELEGRAM_SETUP verification_failed');}
+ }catch(e){const code=/^(token_format|network|http_\d{3}|telegram_rejected)$/.test(e?.message||'')?e.message:'unknown';console.info('TELEGRAM_SETUP verification_failed '+code);}
 })();
