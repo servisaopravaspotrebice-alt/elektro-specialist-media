@@ -8,7 +8,7 @@ const footer=document.querySelector('footer');
 if(footer&&!footer.querySelector('.legal-links')){const div=document.createElement('div');div.className='wrap';div.innerHTML="<div class=\"legal-links\" aria-label=\"Informace pro zákazníky\"><a href=\"kontakt-firma.html\">Kontakt a provozovatel</a> · <a href=\"podminky-servisu.html\">Podmínky servisu a ceny</a> · <a href=\"reklamace.html\">Reklamace a ADR</a> · <a href=\"ochrana-osobnich-udaju.html\">Ochrana osobních údajů</a></div>";footer.appendChild(div);}
 for(const a of document.querySelectorAll('a[href="index.html#soukromi"],a[href="#soukromi"]'))a.href='ochrana-osobnich-udaju.html';
 let form=document.querySelector('form#request');
-const path=location.pathname;
+const path=location.pathname==='/'&&document.querySelector('#callback')?'/servis-spotrebicu.html':location.pathname;
 const type=/mycek/.test(path)?'Myčka nádobí':/susicek/.test(path)?'Sušička prádla':/trub/.test(path)?'Elektrická trouba':/indukcnich-desek/.test(path)?'Indukční deska':/servis-spotrebicu|kontakt-firma|podminky-servisu|reklamace|ochrana-osobnich-udaju/.test(path)?'':'Pračka';
 if(form&&!form.classList.contains('callback-form')){
  const block=form.closest('section');form.outerHTML=template;form=document.querySelector('form#request');
