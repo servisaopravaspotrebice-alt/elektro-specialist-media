@@ -33,5 +33,8 @@ busy=true;sync();message('Odesíláme poptávku…');
 try{const r=await fetch(API+'/request',{method:'POST',body:fd,signal:AbortSignal.timeout(65000)});const j=await r.json();if(!r.ok||!j.ok)throw Error(j.error||'delivery');form.reset();clear();if(type)sel.value=type;id=crypto.randomUUID();message('Děkujeme! Poptávku jsme přijali. Zavoláme vám zpět, abychom upřesnili závadu a sdělili orientační cenu opravy.','success');window.serviceEvent?.('callback_request_success');}
 catch(err){const m=err.message==='rate'?'Příliš mnoho pokusů. Zkuste to později nebo zavolejte.':err.message==='pending'?'Předchozí pokus ještě zpracováváme. Zkuste to později.':'Doručení poptávky se nepodařilo potvrdit. Zkuste znovu nebo volejte +420 770 644 383.';message(m,'error');}
 finally{busy=false;sync();}});
-availability();
+// The separate callback API must not compete with the initial page render.
+let started=false;const start=()=>{if(started)return;started=true;availability();};
+if('IntersectionObserver' in window){const obs=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){obs.disconnect();start();}},{rootMargin:'250px'});obs.observe(form);}else{window.addEventListener('load',start,{once:true});if(document.readyState==='complete')start();}
+form.addEventListener('focusin',start,{once:true});
 })();
