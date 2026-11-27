@@ -82,9 +82,9 @@ form.addEventListener('focusin',start,{once:true});
  if(submit){
  const refresh=()=>{estimate.hidden=submit.disabled;};
  new MutationObserver(refresh).observe(submit,{attributes:true,attributeFilter:['disabled']});refresh();
- estimate.addEventListener('click',()=>{const repair=form.querySelector('input[name=mode][value=repair]');if(repair){repair.checked=true;repair.dispatchEvent(new Event('change'));}if(selector&&form.elements.type&&form.elements.type.value!==selector.value){form.elements.type.value=selector.value;form.elements.type.dispatchEvent(new Event('change'));}if(problem&&form.elements.problem&&[...form.elements.problem.options].some(o=>o.value===problem.value))form.elements.problem.value=problem.value;window.serviceEvent?.('estimate_form_click');});
+ estimate.addEventListener('click',()=>{const repair=form.querySelector('input[name=mode][value=repair]');if(repair){repair.checked=true;repair.dispatchEvent(new Event('change'));}if(selector&&form.elements.type&&form.elements.type.value!==selector.value){form.elements.type.value=selector.value;form.elements.type.dispatchEvent(new Event('change'));}if(problem&&form.elements.problem&&[...form.elements.problem.options].some(o=>o.value===problem.value))form.elements.problem.value=problem.value;window.serviceEvent?.('technician_consultation_request');});
  }}
- document.addEventListener('click',e=>{const a=e.target.closest('a');if(a?.getAttribute('href')==='#cenovy-odhad')window.serviceEvent?.('estimate_open');});
+ document.addEventListener('click',e=>{const a=e.target.closest('a');if(a?.closest('.estimate-card')&&a.getAttribute('href')?.startsWith('tel:'))window.serviceEvent?.('technician_consultation_phone');if(a?.getAttribute('href')==='#cenovy-odhad')window.serviceEvent?.('technician_consultation_open');});
 })();
 
 /* Service offer on regional and brand landing pages. */
