@@ -1,3 +1,4 @@
+import {cms} from './cms.mjs';
 import http from 'node:http';
 import {randomUUID} from 'node:crypto';
 const PORT=Number(process.env.PORT||10000), MAX=6*1024*1024;
@@ -14,6 +15,7 @@ const server=http.createServer(async(req,res)=>{
  const origin=req.headers.origin||'';
  if(origins.has(origin)){res.setHeader('Access-Control-Allow-Origin',origin);res.setHeader('Vary','Origin');res.setHeader('Access-Control-Allow-Methods','GET, POST, OPTIONS');res.setHeader('Access-Control-Allow-Headers','Content-Type');}
  const path=(req.url||'').split('?')[0];
+ if(await cms(req,res,path))return;
  if(req.method==='GET'&&path==='/health')return send(res,200,{ok:true,configured:configured()});
  if(!origins.has(origin))return send(res,403,{ok:false,error:'origin'});
  if(req.method==='OPTIONS')return send(res,204,{});

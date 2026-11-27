@@ -92,3 +92,6 @@ form.addEventListener('focusin',start,{once:true});
 
 /* Keep the request form directly below the hero (or article heading). */
 (function(){const form=document.querySelector('form#request');if(!form)return;const sec=form.closest('section');if(!sec)return;const main=document.querySelector('main');if(!main)return;const hero=main.querySelector('section.hero');const first=main.querySelector('section');if(sec!==first){const after=hero||first;if(after&&after!==sec&&after.nextElementSibling!==sec)after.after(sec);}sec.classList.add('quick-request');const id=sec.id;if(hero&&id){const primary=hero.querySelector('.buttons .btn');if(primary){primary.href='#'+id;primary.textContent='Zjistit cenu / poptat opravu';}const bottom=document.querySelector('.bottom .btn:not(.dark-outline)');if(bottom){bottom.href='#'+id;bottom.textContent='Zjistit cenu';}}})();
+
+/* Link to public repair portfolio. */
+(function(){for(const nav of document.querySelectorAll('.top .links,.top .appliance-nav'))if(!nav.querySelector('a[href="realizace.html"]')){const a=document.createElement('a');a.href='realizace.html';a.textContent='Realizace';nav.append(a);}})();
