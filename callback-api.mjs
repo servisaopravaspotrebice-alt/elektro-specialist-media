@@ -21,7 +21,7 @@ const formatOrderNumber=n=>String(n).padStart(6,'0');
 /* Telegram phone entities use UTF-16 offsets, as do JS string indices.
  * Show Czech numbers as nine consecutive digits without +420; preserve other international prefixes. */
 const dialNumber=phone=>{const digits=phone.replace(/\D/g,'');if(digits.length===14&&digits.startsWith('00420'))return digits.slice(5);if(digits.length===12&&digits.startsWith('420'))return digits.slice(3);if(phone.trim().startsWith('+'))return '+'+digits;if(digits.startsWith('00'))return '+'+digits.slice(2);return digits;};
-const phoneEntity=(message,phone)=>{const offset=message.indexOf('\nTelefon: ')+'\nTelefon: '.length;if(offset<10||message.slice(offset,offset+phone.length)!==phone)throw Error('phone_offset');return [{type:'phone_number',offset,length:phone.length}];};
+const phoneEntity=(message,phone)=>{const offset=message.lastIndexOf('\nTelefon: ')+'\nTelefon: '.length;if(offset<10||message.slice(offset,offset+phone.length)!==phone)throw Error('phone_offset');return [{type:'phone_number',offset,length:phone.length}];};
 const sendOrderTelegram=async(body,method,field)=>{
  try{const sent=await telegram(method,body);const entities=sent[field]||[];console.info('ORDER_PHONE '+(entities.some(e=>e.type==='phone_number')?'entity_confirmed':'client_detection_only'));return sent;}
  catch(e){if(e?.message!=='http_400'||!body.has(field))throw e;body.delete(field);const sent=await telegram(method,body);console.info('ORDER_PHONE fallback_plain');return sent;}
@@ -60,7 +60,7 @@ const server=http.createServer(async(req,res)=>{
  if(receipt.status==='pending')return send(res,409,{ok:false,error:'pending'});
  if(receipt.status!=='claimed')return send(res,503,{ok:false,error:'unavailable'});
  const dial=dialNumber(phone);
- const msg=mode==='callback'?['📞 Poptávka '+number+' – Zpětné zavolání','Telefon: '+dial,'Úkol: zavolat zpět.'].join('\n'):['🔧 Poptávka '+number+' – Elektro Specialist','Spotřebič: '+type,'Telefon: '+dial,'Město / adresa: '+area,'Značka: '+(brand||'neuvedena'),'Model: '+(model||'neuveden'),'Závada: '+problem,'Preferovaný termín: '+(visit||'co nejdříve'),'Úkol: zavolat zpět a sdělit orientační cenu.'].join('\n');
+ const msg=mode==='callback'?['📞 Poptávka '+number+' – Zpětné zavolání','Úkol: zavolat zpět.','','Telefon: '+dial].join('\n'):['🔧 Poptávka '+number+' – Elektro Specialist','Spotřebič: '+type,'Značka: '+(brand||'neuvedena'),'Model: '+(model||'neuveden'),'Závada: '+problem,'Preferovaný termín: '+(visit||'co nejdříve'),'Úkol: zavolat zpět a sdělit orientační cenu.','','Město / adresa: '+area,'Telefon: '+dial].join('\n');
  done.set(id,{pending:true,at:now,number});
  try{const body=new FormData();body.set('chat_id',process.env.TELEGRAM_CHAT_ID);if(buf){body.set('document',new Blob([buf],{type:mime}),'model.'+({'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[mime]));body.set('caption',msg);body.set('caption_entities',JSON.stringify(phoneEntity(msg,dial)));await sendOrderTelegram(body,'sendDocument','caption_entities');}else{body.set('text',msg);body.set('entities',JSON.stringify(phoneEntity(msg,dial)));await sendOrderTelegram(body,'sendMessage','entities');}}catch(e){done.delete(id);if(/^http_4\d\d$/.test(e?.message||''))try{await orderNumber(id,'release',lease);}catch{}return send(res,502,{ok:false,error:'delivery'});}
  done.set(id,{pending:false,at:Date.now(),number});
