@@ -48,3 +48,47 @@
 @media(min-width:801px){.hero .hero-grid>div:first-child{min-width:0}.hero .hero-grid .free-offer{max-width:620px}}
 @media(max-width:800px){.hero .wrap:not(.hero-grid){padding-top:23px;padding-bottom:24px}.hero .hero-grid{padding-top:23px;padding-bottom:24px;gap:16px}.hero .free-offer{margin-bottom:16px}.hero .free-offer+h1{font-size:clamp(29px,6.6vw,48px);line-height:1.1;margin-bottom:12px}.hero .conversion-question{font-size:clamp(18px,4.6vw,24px);margin-bottom:7px}.hero .conversion-copy{margin-bottom:12px;line-height:1.5}.hero .free-offer .offer-main{padding:13px 10px}.hero .free-offer .offer-main strong{font-size:clamp(20px,5vw,32px)}.hero .free-offer .offer-main .free-word{font-size:clamp(42px,10vw,62px)}.hero .offer-conditions{font-size:12px}.hero .buttons .btn{min-height:44px;padding:10px 12px}.hero .hero-contact-note{font-size:12px}.hero .offer-fast{padding:8px 10px}.hero .free-offer .offer-fast strong{font-size:21px}}
 @media(max-width:480px){.hero .free-offer .offer-fast{flex-direction:column;gap:2px}.hero .offer-kicker{font-size:9px;letter-spacing:.7px}.hero .conversion-benefits{gap:5px}.hero .eyebrow{font-size:10px;margin-bottom:9px}.hero .buttons{gap:8px}.hero .buttons .btn{min-width:0;flex:1;font-size:13px}.hero .free-offer .offer-main .free-condition{font-size:12px}}
+
+/* Readable typography and accessible controls, shared by every page.
+   Relative font sizes respect the visitor's browser text settings. */
+:root{--muted:#494549;--line:#d5cfd2;--red:#b70e2c}
+body{font-size:1.125rem;line-height:1.65}
+h1,h2,h3{overflow-wrap:anywhere;letter-spacing:-.025em}
+h3{font-size:1.3125rem;line-height:1.35}
+p,li,summary,dd{overflow-wrap:anywhere}
+.intro,.card p,.step p,.trust-proof p,.callback-heading p{font-size:1.0625rem;line-height:1.65}
+.card .num,.eyebrow,.hero .eyebrow{font-size:.875rem;letter-spacing:.065em;line-height:1.45}
+.fine,.legal,.crumb,.err,.request-notice,.callback-form .fine,.quick-request .photo-field .fine,.legal-links{font-size:.9375rem;line-height:1.55}
+.footer small{font-size:.9375rem;color:#ddd5d8}
+.strip .wrap,.hero .hero-contact-note,.visual:has(.hero-photo) .visual-note{font-size:.9375rem;line-height:1.5}
+.hero .lead{font-size:1.25rem}
+.hero .conversion-question{font-size:clamp(1.25rem,2.4vw,1.6875rem)}
+.hero .conversion-copy,.hero .conversion-benefits{font-size:1.125rem;color:#fff;line-height:1.55}
+.hero .conversion-benefits li{line-height:1.55}
+.hero .free-offer .offer-main .free-condition{font-size:1rem;line-height:1.5;color:#fff}
+.hero .free-offer .offer-fast span{font-size:1rem;line-height:1.45;color:#fff}
+.hero .offer-conditions{font-size:.9375rem;line-height:1.55;color:#f5eef1}
+.hero .free-offer .offer-kicker{font-size:.8125rem;letter-spacing:.04em}
+.hero .free-offer .offer-main strong{overflow-wrap:anywhere}
+.hero .buttons .btn,.btn,.bottom a{font-size:1.0625rem;line-height:1.35;min-height:48px;white-space:normal;text-align:center;overflow-wrap:anywhere}
+label,.brand-field .brand-select-label{font-size:1.0625rem;font-weight:700;color:#262226;line-height:1.45;margin-bottom:6px}
+input,select,textarea,.brand-field select,.brand-field input,.callback-form input[type=file]{font-size:1.125rem;line-height:1.45;min-height:50px;border:1.5px solid #827a7e;color:#171417;background:#fff;max-width:100%;min-width:0}
+input::placeholder,textarea::placeholder{color:#625c60;opacity:1}
+input[type=file]::file-selector-button{font:inherit;font-weight:650;white-space:normal;padding:8px 10px;max-width:100%;cursor:pointer;color:#721027;background:#f8edf0;border:1px solid #a34a60;border-radius:6px;margin-right:8px}
+.callback-form textarea{min-height:95px}
+.quick-request .fields{gap:15px}
+.callback-status{font-size:1rem;line-height:1.55}
+.callback-submit:disabled{opacity:1;background:#e6dfe2;color:#52484d;border-color:#93888e}
+.photo-remove{font-size:1rem;min-height:44px}
+.brand small{font-size:.75rem;letter-spacing:.065em}
+.links,.appliance-nav{font-size:1rem;line-height:1.4}
+.appliance-nav a{padding:7px 0;min-height:40px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #98112b;outline-offset:3px;box-shadow:0 0 0 2px #fff}
+.hero a:focus-visible,.top a:focus-visible,.footer a:focus-visible{outline-color:#fff;box-shadow:0 0 0 2px #c31330}
+.fields>div,.form-grid>*,.estimate-layout>*,.cards>*,.steps>*{min-width:0}
+@media(min-width:1001px){.top .links{gap:10px;font-size:.9375rem}.nav{gap:14px}}
+@media(max-width:1000px){.nav{flex-wrap:wrap;gap:8px 12px;padding-top:10px;padding-bottom:8px}.appliance-nav{gap:15px}.call{font-size:1rem}.brand{font-size:1.0625rem}.brand small{font-size:.75rem}}
+@media(max-width:800px){.hero .conversion-question{font-size:1.3125rem}.hero .conversion-copy,.hero .conversion-benefits{font-size:1.0625rem}.hero .free-offer .offer-main .free-condition,.hero .free-offer .offer-fast span{font-size:1rem}.hero .offer-conditions{font-size:.9375rem}.hero .hero-contact-note,.hero .eyebrow{font-size:.875rem}.hero .buttons .btn{font-size:1rem;min-height:48px}.quick-request .quick-call .btn{min-height:48px}.bottom a{font-size:1.0625rem;min-height:50px}.bottom{align-items:stretch}.footer{padding-bottom:125px}}
+@media(max-width:480px){.hero .free-offer+h1{font-size:clamp(1.875rem,7.2vw,2.5rem);line-height:1.13}.hero .free-offer .offer-main strong{font-size:clamp(1.375rem,5vw,2rem)}.hero .free-offer .offer-main .free-word{font-size:clamp(2.5rem,10vw,3.8rem)}.hero .free-offer .offer-fast strong{font-size:1.375rem}.hero .free-offer .offer-kicker{font-size:.8125rem}.hero .buttons .btn{flex:1 1 140px}.hero .offer-conditions{margin-top:12px}.nav .brand,.nav .call{max-width:100%}.nav .call{white-space:normal}.brand small{overflow-wrap:anywhere}.fields,.cards,.steps{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:360px){.wrap{padding-left:12px;padding-right:12px}.nav{justify-content:center;text-align:center}.hero .buttons .btn{flex-basis:100%}.hero .free-offer .offer-main{padding:12px 8px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
