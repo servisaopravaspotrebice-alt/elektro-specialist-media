@@ -19,8 +19,8 @@ const orderNumber=async(id,action,lease)=>{
 const formatOrderNumber=n=>String(n).padStart(6,'0');
 
 /* Telegram phone entities use UTF-16 offsets, as do JS string indices.
- * Preserve international prefixes; unprefixed Czech 9-digit numbers become +420. */
-const dialNumber=phone=>{const digits=phone.replace(/\D/g,'');if(phone.startsWith('+'))return '+'+digits;if(digits.startsWith('00'))return '+'+digits.slice(2);if(digits.length===9)return '+420'+digits;if(digits.length===12&&digits.startsWith('420'))return '+'+digits;return digits;};
+ * Show Czech numbers as nine consecutive digits without +420; preserve other international prefixes. */
+const dialNumber=phone=>{const digits=phone.replace(/\D/g,'');if(digits.length===14&&digits.startsWith('00420'))return digits.slice(5);if(digits.length===12&&digits.startsWith('420'))return digits.slice(3);if(phone.trim().startsWith('+'))return '+'+digits;if(digits.startsWith('00'))return '+'+digits.slice(2);return digits;};
 const phoneEntity=(message,phone)=>{const offset=message.indexOf('\nTelefon: ')+'\nTelefon: '.length;if(offset<10||message.slice(offset,offset+phone.length)!==phone)throw Error('phone_offset');return [{type:'phone_number',offset,length:phone.length}];};
 const sendOrderTelegram=async(body,method,field)=>{
  try{const sent=await telegram(method,body);const entities=sent[field]||[];console.info('ORDER_PHONE '+(entities.some(e=>e.type==='phone_number')?'entity_confirmed':'client_detection_only'));return sent;}
