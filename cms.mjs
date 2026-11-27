@@ -51,3 +51,16 @@ if(path==='/admin/api/work'&&req.method==='POST'){const x=await body(req,40000),
 fail(404,'Nenalezeno');
 }catch(e){reply(res,e.status||500,{error:e.status?e.message:'Chyba serveru'});return true;}
 }
+
+/* Startup configuration diagnostic: never log credentials or password lengths. */
+(async()=>{
+ const password=String(process.env.CMS_PASSWORD||'');
+ const token=String(process.env.CMS_GITHUB_TOKEN||'').trim();
+ const flags={passwordPresent:!!password,passwordValid:password.length>=14,tokenPresent:!!token};
+ console.info('CMS_SETUP '+JSON.stringify(flags));
+ if(!flags.tokenPresent)return;
+ try{
+ const r=await fetch(base+'/git/ref/heads/'+branch,{headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'Elektro-Specialist-CMS'},signal:AbortSignal.timeout(8000)});
+ console.info('CMS_SETUP github_read_status='+r.status);
+ }catch{console.info('CMS_SETUP github_network_error');}
+})();
