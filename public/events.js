@@ -50,3 +50,21 @@ form.addEventListener('focusin',start,{once:true});
    const note=visual.querySelector('.visual-note');if(note){note.replaceChildren();const a=document.createElement('span'),b=document.createElement('span');a.textContent='Ilustrační snímek (AI)';b.textContent='Diagnostika · Opravy';note.append(a,b);}
  }
 })();
+
+
+/* Conversion helpers; no external trackers or personal data in events. */
+(function(){
+ const faults={"Pračka":["Nevypouští vodu","Neodstřeďuje","Teče","Neohřívá vodu","Hlučí","Nejde zapnout / hlásí chybu"],"Myčka nádobí":["Nevypouští vodu","Špatně myje","Teče","Nenapouští vodu","Neohřívá vodu","Hlásí chybu"],"Sušička prádla":["Nesuší","Neohřívá","Hlučí","Hlásí plnou nádržku","Neotáčí bubnem","Hlásí chybu"],"Elektrická trouba":["Neohřívá","Peče nerovnoměrně","Nejde zapnout","Nefunguje ventilátor","Vyhazuje jistič","Hlásí chybu"],"Indukční deska":["Nerozpoznává nádobí","Nefunguje varná zóna","Vypíná se","Nejde zapnout","Prasklé sklo","Hlásí chybu"]};
+ const selector=document.getElementById('estimate-type'), problem=document.getElementById('estimate-fault');
+ if(selector&&problem){selector.addEventListener('change',()=>{problem.replaceChildren(...[...(faults[selector.value]||[]),'Jiná závada / nevím'].map(v=>new Option(v,v)));});}
+ const estimate=document.querySelector('.estimate-online');
+ const form=document.querySelector('form.callback-form');
+ if(estimate&&form){
+ const submit=form.querySelector('button[type=submit]');
+ if(submit){
+ const refresh=()=>{estimate.hidden=submit.disabled;};
+ new MutationObserver(refresh).observe(submit,{attributes:true,attributeFilter:['disabled']});refresh();
+ estimate.addEventListener('click',()=>{if(selector&&form.elements.type)form.elements.type.value=selector.value;if(problem&&form.elements.problem&&!form.elements.problem.value)form.elements.problem.value=problem.value;window.serviceEvent?.('estimate_form_click');});
+ }}
+ document.addEventListener('click',e=>{const a=e.target.closest('a');if(a?.getAttribute('href')==='#cenovy-odhad')window.serviceEvent?.('estimate_open');});
+})();
