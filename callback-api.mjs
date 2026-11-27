@@ -104,3 +104,6 @@ const server=http.createServer(async(req,res)=>{
  const r=await fetch(process.env.ORDER_DB_URL+'/rest/v1/rpc/elektro_order_number',{method:'POST',headers:{apikey:process.env.ORDER_DB_KEY,'Content-Type':'application/json','x-elektro-number-key':process.env.ORDER_NUMBER_SECRET},body:JSON.stringify({p_id:randomUUID(),p_action:'probe',p_lease:randomUUID()}),signal:AbortSignal.timeout(6000)});
  const j=await r.json();console.info('ORDER_NUMBER '+(j.message==='invalid action'?'database_connected':'probe_failed_http_'+r.status));
  }catch{console.info('ORDER_NUMBER probe_network_failed');}})();
+
+/* Release diagnostics, no customer data. */
+import('./scripts/audit-site.mjs').then(m=>m.auditSite()).then(r=>console.info('SITE_RELEASE_AUDIT '+JSON.stringify(r))).catch(()=>console.info('SITE_RELEASE_AUDIT failed'));
